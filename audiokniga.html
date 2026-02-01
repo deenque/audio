@@ -73,7 +73,7 @@
     }
 
     .title {
-      font-size: 1.5rem;
+      font-size: 1.7rem;
       font-weight: 700;
       margin-bottom: 6px;
       color: var(--primary-light);
@@ -266,40 +266,71 @@
     { title: "Послесловие", src: "https://archive.org/download/16_20211208_20211208/19.mp3" }
   ];
 
-  let currentTrack = 0;
+  let currentTrack = -1; // Нет выбранного трека по умолчанию
 
-  // Загрузка трека
+  // Функция синхронизации иконки play/pause с реальным состоянием аудио
+  function syncPlayPauseIcon() {
+    if (audio.paused) {
+      playPause.classList.replace('fa-pause-circle', 'fa-play-circle');
+    } else {
+      playPause.classList.replace('fa-play-circle', 'fa-pause-circle');
+    }
+  }
+
+  // Загрузка и воспроизведение трека
   function loadTrack(index) {
+    if (currentTrack === index) {
+      // Если трек уже выбран, просто play/pause
+      playPauseTrack();
+      return;
+    }
+
+    audio.pause(); // Пауза текущего, если играет
     currentTrack = index;
     audio.src = tracks[index].src;
     currentTitle.textContent = tracks[index].title;
     audio.load();
-    audio.play().catch(() => {});
+    audio.play().then(() => {
+      syncPlayPauseIcon(); // Синхронизация после успешного play
+    }).catch((error) => {
+      console.error('Error playing audio:', error);
+      syncPlayPauseIcon(); // На всякий случай
+    });
     updatePlaylistUI();
-    playPause.classList.replace('fa-play-circle', 'fa-pause-circle');
   }
 
   // Play / Pause
   function playPauseTrack() {
+    if (currentTrack === -1) {
+      // Если ничего не выбрано, выбрать первый и играть
+      loadTrack(0);
+      return;
+    }
+
     if (audio.paused) {
-      audio.play();
-      playPause.classList.replace('fa-play-circle', 'fa-pause-circle');
+      audio.play().then(() => {
+        syncPlayPauseIcon();
+      }).catch((error) => {
+        console.error('Error playing audio:', error);
+      });
     } else {
       audio.pause();
-      playPause.classList.replace('fa-pause-circle', 'fa-play-circle');
+      syncPlayPauseIcon();
     }
   }
 
   // Предыдущий трек
   function prevTrack() {
-    currentTrack = (currentTrack - 1 + tracks.length) % tracks.length;
-    loadTrack(currentTrack);
+    if (currentTrack === -1) return;
+    const newIndex = (currentTrack - 1 + tracks.length) % tracks.length;
+    loadTrack(newIndex);
   }
 
   // Следующий трек
   function nextTrack() {
-    currentTrack = (currentTrack + 1) % tracks.length;
-    loadTrack(currentTrack);
+    if (currentTrack === -1) return;
+    const newIndex = (currentTrack + 1) % tracks.length;
+    loadTrack(newIndex);
   }
 
   // Обновление прогресса
@@ -342,7 +373,7 @@
         <div class="track-title">${track.title}</div>
       </div>
     `;
-    // При клике на любой трек — сразу воспроизводим его
+    // Клик на трек — загрузка и play (или pause если тот же)
     div.addEventListener('click', () => {
       loadTrack(i);
     });
@@ -354,13 +385,18 @@
   prev.addEventListener('click', prevTrack);
   next.addEventListener('click', nextTrack);
 
-  // События аудио
+  // События аудио для синхронизации иконки
+  audio.addEventListener('play', syncPlayPauseIcon);
+  audio.addEventListener('pause', syncPlayPauseIcon);
   audio.addEventListener('timeupdate', updateProgress);
-  audio.addEventListener('ended', nextTrack);
+  audio.addEventListener('ended', () => {
+    syncPlayPauseIcon(); // На конец — в play
+    nextTrack();
+  });
   progressContainer.addEventListener('click', setProgress);
 
-  // Запуск первого трека (без автоплея — только при первом нажатии)
-
+  // Инициализация: ничего не играет по умолчанию, иконка play
+  syncPlayPauseIcon();
 </script>
 </body>
 </html>
