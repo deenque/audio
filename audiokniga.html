@@ -195,7 +195,7 @@
 
     @media (max-width: 500px) {
       .player-app { border-radius: 0; height: 100vh; max-width: none; }
-      .cover { height: 220px; }
+      .cover { height: 260px; } /* не уменьшаем на мобильных */
     }
   </style>
 </head>
@@ -266,52 +266,47 @@
     { title: "Послесловие", src: "https://archive.org/download/16_20211208_20211208/19.mp3" }
   ];
 
-  let currentTrack = -1; // Нет выбранного трека по умолчанию
+  let currentTrack = -1; // ничего не выбрано изначально
 
-  // Функция синхронизации иконки play/pause с реальным состоянием аудио
   function syncPlayPauseIcon() {
-    if (audio.paused) {
+    if (audio.paused || audio.ended || !audio.src) {
       playPause.classList.replace('fa-pause-circle', 'fa-play-circle');
     } else {
       playPause.classList.replace('fa-play-circle', 'fa-pause-circle');
     }
   }
 
-  // Загрузка и воспроизведение трека
   function loadTrack(index) {
     if (currentTrack === index) {
-      // Если трек уже выбран, просто play/pause
+      // уже выбран → просто toggle play/pause
       playPauseTrack();
       return;
     }
 
-    audio.pause(); // Пауза текущего, если играет
     currentTrack = index;
     audio.src = tracks[index].src;
     currentTitle.textContent = tracks[index].title;
     audio.load();
     audio.play().then(() => {
-      syncPlayPauseIcon(); // Синхронизация после успешного play
-    }).catch((error) => {
-      console.error('Error playing audio:', error);
-      syncPlayPauseIcon(); // На всякий случай
+      syncPlayPauseIcon();
+    }).catch(err => {
+      console.warn("Автозапуск заблокирован или ошибка:", err);
+      syncPlayPauseIcon();
     });
     updatePlaylistUI();
   }
 
-  // Play / Pause
   function playPauseTrack() {
     if (currentTrack === -1) {
-      // Если ничего не выбрано, выбрать первый и играть
+      // первый запуск — стартуем с 0
       loadTrack(0);
       return;
     }
 
     if (audio.paused) {
-      audio.play().then(() => {
+      audio.play().then(syncPlayPauseIcon).catch(err => {
+        console.warn("Play error:", err);
         syncPlayPauseIcon();
-      }).catch((error) => {
-        console.error('Error playing audio:', error);
       });
     } else {
       audio.pause();
@@ -319,24 +314,22 @@
     }
   }
 
-  // Предыдущий трек
   function prevTrack() {
-    if (currentTrack === -1) return;
-    const newIndex = (currentTrack - 1 + tracks.length) % tracks.length;
-    loadTrack(newIndex);
+    if (currentTrack <= -1) return;
+    let idx = currentTrack - 1;
+    if (idx < 0) idx = tracks.length - 1;
+    loadTrack(idx);
   }
 
-  // Следующий трек
   function nextTrack() {
-    if (currentTrack === -1) return;
-    const newIndex = (currentTrack + 1) % tracks.length;
-    loadTrack(newIndex);
+    if (currentTrack <= -1) return;
+    let idx = (currentTrack + 1) % tracks.length;
+    loadTrack(idx);
   }
 
-  // Обновление прогресса
   function updateProgress(e) {
     const { duration, currentTime } = e.srcElement;
-    if (isNaN(duration)) return;
+    if (!duration || isNaN(duration)) return;
     const percent = (currentTime / duration) * 100;
     progress.style.width = `${percent}%`;
 
@@ -349,21 +342,21 @@
     durationEl.textContent = `${durMin}:${durSec}`;
   }
 
-  // Перемотка по клику на прогресс-бар
   function setProgress(e) {
     const width = this.clientWidth;
     const clickX = e.offsetX;
-    audio.currentTime = (clickX / width) * audio.duration;
+    if (audio.duration) {
+      audio.currentTime = (clickX / width) * audio.duration;
+    }
   }
 
-  // Обновление активного трека в плейлисте
   function updatePlaylistUI() {
     document.querySelectorAll('.track').forEach((el, i) => {
       el.classList.toggle('active', i === currentTrack);
     });
   }
 
-  // Создание плейлиста
+  // Построение плейлиста
   tracks.forEach((track, i) => {
     const div = document.createElement('div');
     div.className = 'track';
@@ -373,29 +366,24 @@
         <div class="track-title">${track.title}</div>
       </div>
     `;
-    // Клик на трек — загрузка и play (или pause если тот же)
-    div.addEventListener('click', () => {
-      loadTrack(i);
-    });
+    div.addEventListener('click', () => loadTrack(i));
     playlistEl.appendChild(div);
   });
 
-  // События кнопок
+  // События
   playPause.addEventListener('click', playPauseTrack);
   prev.addEventListener('click', prevTrack);
   next.addEventListener('click', nextTrack);
-
-  // События аудио для синхронизации иконки
+  audio.addEventListener('timeupdate', updateProgress);
   audio.addEventListener('play', syncPlayPauseIcon);
   audio.addEventListener('pause', syncPlayPauseIcon);
-  audio.addEventListener('timeupdate', updateProgress);
   audio.addEventListener('ended', () => {
-    syncPlayPauseIcon(); // На конец — в play
+    syncPlayPauseIcon();
     nextTrack();
   });
   progressContainer.addEventListener('click', setProgress);
 
-  // Инициализация: ничего не играет по умолчанию, иконка play
+  // Изначальное состояние
   syncPlayPauseIcon();
 </script>
 </body>
