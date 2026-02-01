@@ -28,22 +28,20 @@
 
     body {
       font-family: "tilda-sans", system-ui, -apple-system, sans-serif;
-      background: var(--bg);
+      background: transparent;
       color: var(--text);
+      margin: 0;
+      padding: 0;
       min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 20px;
     }
 
     .player-app {
       width: 100%;
-      max-width: 420px;
+      max-width: none;
       background: var(--card);
-      border-radius: 24px;
-      border: 1px solid #222;
-      box-shadow: 0 30px 80px rgba(0,0,0,0.9);
+      border-radius: 0;
+      border: none;
+      box-shadow: none;
       overflow: hidden;
     }
 
@@ -193,8 +191,9 @@
     ::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 3px; }
 
     @media (max-width: 500px) {
-      .player-app { border-radius: 0; height: 100vh; max-width: none; }
       .cover { height: 220px; }
+      .controls { padding: 20px 16px 12px; }
+      .playlist { padding: 0 16px 16px; }
     }
   </style>
 </head>
@@ -277,7 +276,6 @@
 
   function loadTrack(index) {
     if (currentTrack === index) {
-      // уже этот трек → просто переключить play/pause
       playPauseTrack();
       return;
     }
@@ -286,11 +284,7 @@
     audio.src = tracks[index].src;
     currentTitle.textContent = tracks[index].title;
     audio.load();
-    audio.play().then(() => {
-      syncPlayPauseIcon();
-    }).catch(() => {
-      syncPlayPauseIcon();
-    });
+    audio.play().then(syncPlayPauseIcon).catch(syncPlayPauseIcon);
     updatePlaylistUI();
   }
 
@@ -299,7 +293,6 @@
       loadTrack(0);
       return;
     }
-
     if (audio.paused) {
       audio.play().then(syncPlayPauseIcon).catch(syncPlayPauseIcon);
     } else {
@@ -339,7 +332,9 @@
   function setProgress(e) {
     const width = this.clientWidth;
     const clickX = e.offsetX;
-    audio.currentTime = (clickX / width) * audio.duration;
+    if (audio.duration) {
+      audio.currentTime = (clickX / width) * audio.duration;
+    }
   }
 
   function updatePlaylistUI() {
@@ -367,10 +362,7 @@
   audio.addEventListener('timeupdate', updateProgress);
   audio.addEventListener('play', syncPlayPauseIcon);
   audio.addEventListener('pause', syncPlayPauseIcon);
-  audio.addEventListener('ended', () => {
-    syncPlayPauseIcon();
-    nextTrack();
-  });
+  audio.addEventListener('ended', () => { syncPlayPauseIcon(); nextTrack(); });
   progressContainer.addEventListener('click', setProgress);
 
   syncPlayPauseIcon();
