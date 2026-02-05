@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Книга Ильи Кнабенгофа</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      background: #0a0a0a;
+      color: #e0e0e0;
+      min-height: 100vh;
+      padding: 20px;
+      line-height: 1.5;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      color: #edd293;
+      font-size: 2.4rem;
+      text-align: center;
+      margin-bottom: 0.6rem;
+    }
+
+    .subtitle {
+      color: #aaa;
+      text-align: center;
+      font-size: 1.15rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .formats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.8rem;
+    }
+
+    .card {
+      background: #1a1a1a;
+      border: 1px solid #333;
+      border-radius: 12px;
+      padding: 1.8rem 1.4rem;
+      text-align: center;
+      transition: all 0.22s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-6px);
+      border-color: #555;
+      box-shadow: 0 12px 32px rgba(0,0,0,0.5);
+    }
+
+    .icon {
+      font-size: 3.6rem;
+      margin-bottom: 1rem;
+      color: #edd293;
+    }
+
+    .card h3 {
+      color: white;
+      font-size: 1.4rem;
+      margin-bottom: 0.6rem;
+    }
+
+    .card p {
+      color: #bbb;
+      font-size: 0.98rem;
+      margin-bottom: 1.4rem;
+    }
+
+    .buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+    }
+
+    .btn {
+      display: block;
+      padding: 0.9rem 1.6rem;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 500;
+      transition: all 0.2s;
+    }
+
+    .btn-download {
+      background: #edd293;
+      color: #111;
+    }
+
+    .btn-download:hover {
+      background: #f7d89b;
+      transform: translateY(-1px);
+    }
+
+    .btn-buy {
+      background: transparent;
+      border: 1px solid #555;
+      color: #ccc;
+    }
+
+    .btn-buy:hover {
+      background: rgba(100,100,100,0.2);
+      color: white;
+      border-color: #777;
+    }
+
+    .footer-note {
+      text-align: center;
+      color: #777;
+      font-size: 0.95rem;
+      margin-top: 2.5rem;
+    }
+
+    @media (max-width: 640px) {
+      h1 { font-size: 2rem; }
+      .formats { grid-template-columns: 1fr; }
+      .card { padding: 1.6rem 1.2rem; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h1>Книга Ильи Кнабенгофа</h1>
+  <div class="subtitle">«Будь джедаем» — путь к внутренней силе и осознанности</div>
+
+  <div class="formats">
+    <div class="card">
+      <div class="icon">📖</div>
+      <h3>EPUB</h3>
+      <p>Лучше всего для Apple Books, Google Play Books, большинства современных ридеров</p>
+      <div class="buttons">
+        <a href="https://example.com/book.epub" class="btn btn-download" download>Скачать EPUB</a>
+        <!-- <a href="#" class="btn btn-buy">Купить EPUB</a> -->
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="icon">📱</div>
+      <h3>FB2</h3>
+      <p>Оптимально для PocketBook, Onyx Boox, большинства приложений в России</p>
+      <div class="buttons">
+        <a href="https://example.com/book.fb2" class="btn btn-download" download>Скачать FB2</a>
+        <!-- <a href="#" class="btn btn-buy">Купить FB2</a> -->
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="icon">📄</div>
+      <h3>PDF</h3>
+      <p>Универсальный формат, сохраняет оформление, удобно для чтения и печати</p>
+      <div class="buttons">
+        <a href="https://example.com/book.pdf" class="btn btn-download" download>Скачать PDF</a>
+        <!-- <a href="#" class="btn btn-buy">Купить PDF</a> -->
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-note">
+    Файлы без DRM • Скачивайте и читайте на любом устройстве<br>
+    <small>Спасибо, что поддерживаете автора!</small>
+  </div>
+</div>
+
+</body>
+</html>
