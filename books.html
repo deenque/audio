@@ -2,10 +2,9 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
   <title>Форматы книги</title>
 
-  <!-- Font Awesome только нужные иконки -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
   <style>
@@ -15,51 +14,55 @@
       box-sizing: border-box;
     }
 
+    html, body {
+      height: auto;
+      min-height: unset !important;
+      background: #0f0f0f;
+      overflow: hidden;           /* предотвращаем лишний скролл */
+    }
+
     body {
       font-family: system-ui, -apple-system, sans-serif;
-      background: #0f0f0f;
       color: #ddd;
-      padding: 16px 12px 20px;
+      padding: 16px 12px 24px;
       font-size: 14px;
-      line-height: 1.4;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
+      line-height: 1.45;
+      touch-action: manipulation; /* улучшает тач на мобильных */
     }
 
     .container {
       max-width: 720px;
       margin: 0 auto;
+      height: fit-content;
     }
 
     h1 {
       color: #d4b67a;
-      font-size: 1.4rem;
+      font-size: 1.45rem;
       text-align: center;
-      margin-bottom: 6px;
+      margin-bottom: 8px;
     }
 
     .subtitle {
       color: #888;
       text-align: center;
-      font-size: 0.9rem;
-      margin-bottom: 18px;
+      font-size: 0.92rem;
+      margin-bottom: 20px;
     }
 
     .formats {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
-      gap: 12px;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 14px;
     }
 
     .card {
       background: #181818;
       border: 1px solid #2a2a2a;
       border-radius: 10px;
-      padding: 14px 10px;
+      padding: 16px 12px;
       text-align: center;
-      transition: all 0.18s ease;
+      transition: transform 0.18s ease;
     }
 
     .card:hover {
@@ -68,32 +71,32 @@
     }
 
     .icon {
-      font-size: 1.7rem;
+      font-size: 1.8rem;
       color: #999;
-      margin-bottom: 8px;
+      margin-bottom: 10px;
       display: block;
     }
 
     .card h3 {
       color: #eee;
-      font-size: 1.05rem;
-      margin-bottom: 4px;
+      font-size: 1.08rem;
+      margin-bottom: 6px;
     }
 
     .card p {
       color: #999;
-      font-size: 0.82rem;
-      margin-bottom: 10px;
+      font-size: 0.86rem;
+      margin-bottom: 12px;
     }
 
     .btn {
       display: block;
-      padding: 8px 0;
+      padding: 10px 0;
       background: #d4b67a;
       color: #111;
       text-decoration: none;
       border-radius: 6px;
-      font-size: 0.9rem;
+      font-size: 0.95rem;
       font-weight: 500;
       transition: background 0.18s;
     }
@@ -105,44 +108,67 @@
     .note {
       text-align: center;
       color: #777;
-      font-size: 0.78rem;
-      margin-top: 16px;
+      font-size: 0.82rem;
+      margin-top: 20px;
       opacity: 0.9;
     }
 
-    @media (max-width: 480px) {
+    /* Мобильная версия */
+    @media (max-width: 520px) {
       body {
-        padding: 12px 10px 16px;
-        font-size: 13px;
+        padding: 14px 10px 28px;
+        font-size: 14.5px;
       }
+
       h1 {
-        font-size: 1.28rem;
+        font-size: 1.5rem;
       }
+
       .subtitle {
-        font-size: 0.84rem;
-        margin-bottom: 14px;
+        font-size: 0.95rem;
+        margin-bottom: 22px;
       }
+
       .formats {
         grid-template-columns: 1fr;
-        gap: 10px;
+        gap: 18px;
       }
+
       .card {
-        padding: 12px 10px;
+        padding: 18px 14px;
       }
+
       .icon {
-        font-size: 1.55rem;
-        margin-bottom: 6px;
+        font-size: 2.1rem;
+        margin-bottom: 12px;
       }
+
       .card h3 {
+        font-size: 1.18rem;
+      }
+
+      .card p {
+        font-size: 0.94rem;
+        margin-bottom: 14px;
+      }
+
+      .btn {
+        padding: 11px 0;
         font-size: 1rem;
       }
-      .card p {
-        font-size: 0.78rem;
-        margin-bottom: 8px;
+
+      .note {
+        margin-top: 26px;
+        font-size: 0.88rem;
       }
-      .btn {
-        padding: 7px 0;
-        font-size: 0.86rem;
+    }
+
+    @media (max-width: 380px) {
+      body {
+        padding: 12px 8px 24px;
+      }
+      .card {
+        padding: 16px 12px;
       }
     }
   </style>
@@ -157,7 +183,7 @@
     <div class="card">
       <i class="fas fa-file icon"></i>
       <h3>EPUB</h3>
-      <p>Apple Books, Google Play, ридеры</p>
+      <p>Apple, Google Play, Ридеры</p>
       <a href="https://example.com/book.epub" class="btn" download>Скачать</a>
     </div>
 
