@@ -1,274 +1,183 @@
-<!-- ================================================== -->
-<!-- Попап с форматами книги Ильи Кнабенгофа           -->
-<!-- ================================================== -->
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Форматы книги</title>
 
-<!-- Кнопка, которая открывает попап (можно ставить в любом месте страницы) -->
-<!-- Пример: -->
-<!-- <button class="open-book-modal">Скачать книгу</button> -->
-<!-- или -->
-<!-- <a href="#" class="open-book-modal">Книга «Будь джедаем»</a> -->
+  <!-- Font Awesome только нужные иконки -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-<!-- Сам попап (вставь в конец <body>) -->
-<div id="book-modal" class="book-modal">
-  <div class="book-modal__content">
-    <button class="book-modal__close" aria-label="Закрыть">×</button>
-    
-    <div class="book-modal__header">
-      <h2>Книга Ильи Кнабенгофа</h2>
-      <p class="book-modal__subtitle">«Будь джедаем» — путь к внутренней силе и осознанности</p>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      background: #0f0f0f;
+      color: #ddd;
+      padding: 16px 12px 20px;
+      font-size: 14px;
+      line-height: 1.4;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .container {
+      max-width: 100%;
+      margin: 0 auto;
+    }
+
+    h1 {
+      color: #d4b67a;
+      font-size: 1.4rem;
+      text-align: center;
+      margin-bottom: 6px;
+    }
+
+    .subtitle {
+      color: #888;
+      text-align: center;
+      font-size: 0.9rem;
+      margin-bottom: 18px;
+    }
+
+    .formats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+      gap: 12px;
+    }
+
+    .card {
+      background: #181818;
+      border: 1px solid #2a2a2a;
+      border-radius: 10px;
+      padding: 14px 10px;
+      text-align: center;
+      transition: all 0.18s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-3px);
+      border-color: #444;
+    }
+
+    .icon {
+      font-size: 1.7rem;
+      color: #999;
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    .card h3 {
+      color: #eee;
+      font-size: 1.05rem;
+      margin-bottom: 4px;
+    }
+
+    .card p {
+      color: #999;
+      font-size: 0.82rem;
+      margin-bottom: 10px;
+    }
+
+    .btn {
+      display: block;
+      padding: 8px 0;
+      background: #d4b67a;
+      color: #111;
+      text-decoration: none;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: background 0.18s;
+    }
+
+    .btn:hover {
+      background: #e0c58a;
+    }
+
+    .note {
+      text-align: center;
+      color: #777;
+      font-size: 0.78rem;
+      margin-top: 16px;
+      opacity: 0.9;
+    }
+
+    @media (max-width: 480px) {
+      body {
+        padding: 12px 10px 16px;
+        font-size: 13px;
+      }
+      h1 {
+        font-size: 1.28rem;
+      }
+      .subtitle {
+        font-size: 0.84rem;
+        margin-bottom: 14px;
+      }
+      .formats {
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }
+      .card {
+        padding: 12px 10px;
+      }
+      .icon {
+        font-size: 1.55rem;
+        margin-bottom: 6px;
+      }
+      .card h3 {
+        font-size: 1rem;
+      }
+      .card p {
+        font-size: 0.78rem;
+        margin-bottom: 8px;
+      }
+      .btn {
+        padding: 7px 0;
+        font-size: 0.86rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h1>Книга Ильи Кнабенгофа</h1>
+  <div class="subtitle">«Будь джедаем» — скачивайте в удобном формате</div>
+
+  <div class="formats">
+    <div class="card">
+      <i class="fas fa-file icon"></i>
+      <h3>EPUB</h3>
+      <p>Apple Books, Google Play, ридеры</p>
+      <a href="https://example.com/book.epub" class="btn" download>Скачать</a>
     </div>
 
-    <div class="book-modal__formats">
-      <div class="format-card">
-        <div class="format-icon">📖</div>
-        <h3>EPUB</h3>
-        <p>Идеально для iBooks, Apple Books, Google Play Books, большинства современных ридеров</p>
-        <div class="format-actions">
-          <a href="https://your-link.com/book.epub" class="btn btn-primary" download>Скачать EPUB</a>
-          <!-- <a href="https://your-link.com/buy-epub" class="btn btn-secondary">Купить EPUB</a> -->
-        </div>
-      </div>
-
-      <div class="format-card">
-        <div class="format-icon">📱</div>
-        <h3>FB2</h3>
-        <p>Лучший выбор для PocketBook, Onyx Boox, Android-ридеров и приложений в России</p>
-        <div class="format-actions">
-          <a href="https://your-link.com/book.fb2" class="btn btn-primary" download>Скачать FB2</a>
-          <!-- <a href="https://your-link.com/buy-fb2" class="btn btn-secondary">Купить FB2</a> -->
-        </div>
-      </div>
-
-      <div class="format-card">
-        <div class="format-icon">📄</div>
-        <h3>PDF</h3>
-        <p>Универсальный формат, сохраняет точное оформление, удобно для чтения и печати</p>
-        <div class="format-actions">
-          <a href="https://your-link.com/book.pdf" class="btn btn-primary" download>Скачать PDF</a>
-          <!-- <a href="https://your-link.com/buy-pdf" class="btn btn-secondary">Купить PDF</a> -->
-        </div>
-      </div>
+    <div class="card">
+      <i class="fas fa-file icon"></i>
+      <h3>FB2</h3>
+      <p>PocketBook, Onyx, Android</p>
+      <a href="https://example.com/book.fb2" class="btn" download>Скачать</a>
     </div>
 
-    <div class="book-modal__footer">
-      <p>Файлы без DRM — скачивайте и читайте на любом устройстве</p>
-      <small>Поддержка автора — спасибо, что вы с нами!</small>
+    <div class="card">
+      <i class="fas fa-file-pdf icon"></i>
+      <h3>PDF</h3>
+      <p>Универсальный формат</p>
+      <a href="https://example.com/book.pdf" class="btn" download>Скачать</a>
     </div>
   </div>
+
+  <div class="note">Без DRM • Поддержка автора</div>
 </div>
 
-<!-- Стили (добавь в <style> или в Custom CSS на Tilda) -->
-<style>
-  .book-modal {
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.88);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    z-index: 10000;
-    display: none;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-    opacity: 0;
-    transition: opacity 0.35s ease;
-  }
-
-  .book-modal.visible {
-    display: flex;
-    opacity: 1;
-  }
-
-  .book-modal__content {
-    background: linear-gradient(145deg, #111111 0%, #0a0a0a 100%);
-    border: 1px solid #2a2a2a;
-    border-radius: 16px;
-    max-width: 760px;
-    width: 100%;
-    max-height: 92vh;
-    overflow-y: auto;
-    position: relative;
-    box-shadow: 0 20px 70px rgba(0,0,0,0.75);
-    padding: 40px 32px;
-  }
-
-  .book-modal__close {
-    position: absolute;
-    top: 16px;
-    right: 24px;
-    background: none;
-    border: none;
-    color: #777;
-    font-size: 2.4rem;
-    line-height: 1;
-    cursor: pointer;
-    transition: color 0.2s, transform 0.2s;
-  }
-
-  .book-modal__close:hover {
-    color: #fff;
-    transform: rotate(90deg);
-  }
-
-  .book-modal__header {
-    text-align: center;
-    margin-bottom: 36px;
-  }
-
-  .book-modal__header h2 {
-    color: #EDD293;
-    margin: 0 0 12px;
-    font-size: 2.4rem;
-    font-weight: 600;
-  }
-
-  .book-modal__subtitle {
-    color: #aaa;
-    margin: 0;
-    font-size: 1.15rem;
-  }
-
-  .book-modal__formats {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 28px;
-    margin-bottom: 40px;
-  }
-
-  .format-card {
-    background: rgba(35,35,35,0.7);
-    border: 1px solid #333;
-    border-radius: 14px;
-    padding: 28px 20px;
-    text-align: center;
-    transition: all 0.25s ease;
-  }
-
-  .format-card:hover {
-    transform: translateY(-6px);
-    background: rgba(50,50,50,0.85);
-    border-color: #555;
-    box-shadow: 0 16px 40px rgba(0,0,0,0.5);
-  }
-
-  .format-icon {
-    font-size: 3.8rem;
-    margin-bottom: 16px;
-    color: #EDD293;
-  }
-
-  .format-card h3 {
-    margin: 0 0 10px;
-    color: #fff;
-    font-size: 1.45rem;
-  }
-
-  .format-card p {
-    color: #bbb;
-    font-size: 0.97rem;
-    margin: 0 0 20px;
-    line-height: 1.45;
-  }
-
-  .format-actions {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
-
-  .btn {
-    display: block;
-    padding: 14px 28px;
-    border-radius: 10px;
-    text-decoration: none;
-    font-weight: 500;
-    font-size: 1rem;
-    transition: all 0.22s;
-  }
-
-  .btn-primary {
-    background: #EDD293;
-    color: #111;
-  }
-
-  .btn-primary:hover {
-    background: #F7D89B;
-    transform: translateY(-2px);
-  }
-
-  .btn-secondary {
-    background: transparent;
-    border: 1px solid #666;
-    color: #ccc;
-  }
-
-  .btn-secondary:hover {
-    background: rgba(100,100,100,0.25);
-    border-color: #999;
-    color: #fff;
-  }
-
-  .book-modal__footer {
-    text-align: center;
-    color: #777;
-    font-size: 0.98rem;
-    margin-top: 32px;
-  }
-
-  .book-modal__footer small {
-    display: block;
-    margin-top: 10px;
-    opacity: 0.75;
-  }
-
-  /* Мобильные устройства */
-  @media (max-width: 640px) {
-    .book-modal__content {
-      padding: 32px 20px;
-    }
-    .book-modal__formats {
-      grid-template-columns: 1fr;
-    }
-    .book-modal__header h2 {
-      font-size: 2rem;
-    }
-  }
-</style>
-
-<!-- JavaScript (добавь в конец <body> или в <script>) -->
-<script>
-  document.addEventListener('DOMContentLoaded', function () {
-    // Открытие попапа
-    document.querySelectorAll('.open-book-modal').forEach(function (btn) {
-      btn.addEventListener('click', function (e) {
-        e.preventDefault();
-        document.getElementById('book-modal').classList.add('visible');
-      });
-    });
-
-    // Закрытие по крестику
-    const closeBtn = document.querySelector('.book-modal__close');
-    if (closeBtn) {
-      closeBtn.addEventListener('click', function () {
-        document.getElementById('book-modal').classList.remove('visible');
-      });
-    }
-
-    // Закрытие по клику на фон
-    const modal = document.getElementById('book-modal');
-    if (modal) {
-      modal.addEventListener('click', function (e) {
-        if (e.target === modal) {
-          modal.classList.remove('visible');
-        }
-      });
-    }
-
-    // Закрытие по Esc
-    document.addEventListener('keydown', function (e) {
-      if (e.key === 'Escape' && modal.classList.contains('visible')) {
-        modal.classList.remove('visible');
-      }
-    });
-  });
-</script>
+</body>
+</html>
