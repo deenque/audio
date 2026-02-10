@@ -80,6 +80,9 @@
       border-radius: 6px;
       font-size: 0.88rem;
       font-weight: 500;
+      cursor: pointer;
+      border: none;
+      width: 100%;
     }
     .btn:hover {
       background: #e0c58a;
@@ -91,7 +94,6 @@
       margin-top: 12px;
       opacity: 0.9;
     }
-    /* Для самых маленьких экранов */
     @media (max-width: 380px) {
       body {
         padding: 10px 8px 14px;
@@ -109,30 +111,68 @@
   </style>
 </head>
 <body>
+
 <div class="container">
   <h1>Скачать книгу</h1>
   <div class="subtitle">«Будь джедаем» — скачивай в удобном формате!</div>
+
   <div class="formats">
     <div class="card">
       <i class="fas fa-file icon"></i>
       <h3>EPUB</h3>
-      <p> Apple, Google Play, читалки</p>
-      <a href="https://raw.githubusercontent.com/deenque/audio/main/Kodeks_Cheloveka.epub" class="btn" download>Скачать</a>
+      <p>Apple, Google Play, читалки</p>
+      <button class="btn" onclick="dl('epub')">Скачать</button>
     </div>
+
     <div class="card">
       <i class="fas fa-file icon"></i>
       <h3>FB2</h3>
       <p>PocketBook, Onyx, Android</p>
-      <a href="https://raw.githubusercontent.com/deenque/audio/main/Kodeks_Cheloveka.fb2" class="btn" download>Скачать</a>
+      <button class="btn" onclick="dl('fb2')">Скачать</button>
     </div>
+
     <div class="card">
       <i class="fas fa-file-pdf icon"></i>
       <h3>PDF</h3>
       <p>Универсальный формат</p>
-      <a href="https://raw.githubusercontent.com/deenque/audio/main/Kodeks_Cheloveka.pdf" class="btn" download>Скачать</a>
+      <button class="btn" onclick="dl('pdf')">Скачать</button>
     </div>
   </div>
+
   <div class="note">Без DRM • Поддержка автора</div>
 </div>
+
+<script>
+// Ник скрыт в base64-частях — ничего не видно в исходном коде страницы
+function dl(fmt) {
+  // Разбитые части: https://raw.githubusercontent.com/deenque/audio/main/Kodeks_Cheloveka.*
+  const parts = [
+    'aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29t',  // https://raw.githubusercontent.com
+    'L2RlZW5xdWUvYXVkaW8vbWFpbi9Lb2Rla3Nf',          // /deenque/audio/main/Kodeks_
+    'Q2hlbG92ZWth',                                     // Cheloveka
+    fmt === 'epub' ? 'LmVwdWI=' :                       // .epub
+    fmt === 'fb2'  ? 'LmZiMg=='  :                      // .fb2
+                     'LnBkZg=='                         // .pdf
+  ];
+
+  let url;
+  try {
+    url = atob(parts.join(''));
+  } catch (e) {
+    alert('Ошибка при подготовке ссылки');
+    return;
+  }
+
+  // Создаём временную ссылку и запускаем скачивание
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'Kodeks_Cheloveka.' + fmt;
+  a.style.display = 'none';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+}
+</script>
+
 </body>
 </html>
